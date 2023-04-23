@@ -2,10 +2,10 @@
 
 ### Steps and Requirements
 
-`install go v1.20`
+`install go v1.20` [Link] to download(https://go.dev/doc/install)
 
 After installing, make sure you have the latest version by typing `go version` in your terminal. Then add the gopath directory in your environment variables. On Windows your gopath is `%HOMEPATH%/go`
-Check this tutorial for more information. [link](https://github.com/)
+Check these tutorials for more information [Windows](https://www.youtube.com/watch?v=kjr3mOPv8Sk) and [Linux](https://fr.techtribune.net/linux/comment-installer-golang-langage-de-programmation-go-sous-linux/484285/)
 
 In your `$GOPATH` directory, in `$GOPATH/src` clone the repository.
 
