@@ -1,0 +1,27 @@
+## About Accounts Services
+
+### Steps and Requirements
+
+`install go v1.20`
+
+After installing, make sure you have the latest version by typing `go version` in your terminal. Then add the gopath directory in your environment variables. On Windows your gopath is `%HOMEPATH%/go`
+Check this tutorial for more information. [link](https://github.com/)
+
+In your `$GOPATH` directory, in `$GOPATH/src` clone the repository.
+
+Install MongoDB and MongoDB compass or install mongodb and create a cluster MongoDB on mongodb Atlas. By default, i installed MongoDB and MongoDB compass to manage my data storage.
+
+### Dependencies
+
+You have to install the following dependencies. In repositories type `go get .`
+
+or install :
+
+* gin from github by typing `go get github.com/gin-gonic/gin v1.9.0`
+* mongodb dirvers by typing `go get go.mongodb.org/mongo-driver/mongo`  and  `go get go.mongodb.org/mongo-driver/bson/primitive`
+* gotoenv to load our project env variables `go get github.com/joho/godotenv`
+* validator by typing `go get github.com/go-playground/validator`
+
+### Launching
+
+After those installation, you can run `go run main.go` in your project directory
