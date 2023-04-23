@@ -25,5 +25,3 @@ or install :
 ### Launching
 
 After those installation, you can run `go run main.go` in your project directory
-
-```hello```
