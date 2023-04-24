@@ -57,7 +57,7 @@ func CreateAccount() gin.HandlerFunc {
 			c.JSON(http.StatusInternalServerError, responses.Response{Status: http.StatusInternalServerError, Message: "error", Data: map[string]interface{}{"data": err.Error()}})
 			return
 		}
-		c.JSON(http.StatusCreated, responses.Response{Status: http.StatusCreated, Message: "success", Data: map[string]interface{}{"data": result}})
+		c.JSON(http.StatusCreated, result)
 	}
 }
 
@@ -82,7 +82,7 @@ func GetAccounts() gin.HandlerFunc {
 			}
 			accounts = append(accounts, singleaccount)
 		}
-		c.JSON(http.StatusOK, responses.Response{Status: http.StatusOK, Message: "success", Data: map[string]interface{}{"data": accounts}})
+		c.JSON(http.StatusOK, accounts)
 	}
 }
 
@@ -103,7 +103,7 @@ func GetAccount() gin.HandlerFunc {
 			return
 		}
 
-		c.JSON(http.StatusOK, responses.Response{Status: http.StatusOK, Message: "success", Data: map[string]interface{}{"data": account}})
+		c.JSON(http.StatusOK, account)
 	}
 }
 
@@ -124,7 +124,7 @@ func GetSoldeAccount() gin.HandlerFunc {
 			return
 		}
 
-		c.JSON(http.StatusOK, responses.Response{Status: http.StatusOK, Message: "success", Data: map[string]interface{}{"data": account.Amount}})
+		c.JSON(http.StatusOK, responses.Response{Status: http.StatusOK, Message: "success", Data: map[string]interface{}{"Amount": account.Amount}})
 		return
 	}
 }
@@ -152,7 +152,7 @@ func DeleteAccount() gin.HandlerFunc {
 		}
 
 		c.JSON(http.StatusOK,
-			responses.Response{Status: http.StatusOK, Message: "success", Data: map[string]interface{}{"data": "Account deleted!"}},
+			responses.Response{Status: http.StatusOK, Message: "success", Data: map[string]interface{}{"message": "Account deleted!"}},
 		)
 	}
 }
