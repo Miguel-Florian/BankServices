@@ -13,12 +13,12 @@ func TransactionStorageRoute(router *gin.Engine) {
 		api.POST("/deposit", controllers.Deposit())         //insert a deposit transaction in deposit database
 		api.POST("/withdrwal", controllers.GetAllDeposit()) //insert a withdraw transaction in withdraw database
 		api.GET("/deposits", controllers.GetAllDeposit())
-		api.GET("/withdrawal", controllers.GetAllWithdrawal())
+		api.GET("/withdrawal", controllers.GetAllWithdraws())
 		//api.GET("/deposits/:accountnumber", controllers.AccountDeposits())
 		//api.GET("/withdrawal/:accountnumber", controllers.AccountWithdrawal())
 
 	}
 	// api to make a desposit
-	router.GET("http://localhost:3000/api/accountservices/account/:accountnumber/solde")
+	//router.GET("http://localhost:3000/api/accountservices/account/:accountnumber/solde")
 	// api to make a withdrawal
 }
