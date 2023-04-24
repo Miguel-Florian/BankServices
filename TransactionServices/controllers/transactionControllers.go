@@ -48,7 +48,7 @@ func GetAllWithdraws() gin.HandlerFunc {
 		var withdrawals []model.Transaction
 		defer cancel()
 
-		results, err := accountCollection.Find(ctx, bson.M{})
+		results, err := withdrawalCollection.Find(ctx, bson.M{})
 
 		if err != nil {
 			c.JSON(http.StatusInternalServerError, responses.Response{Status: http.StatusInternalServerError, Message: "error", Data: map[string]interface{}{"data": err.Error()}})
