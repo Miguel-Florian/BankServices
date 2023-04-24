@@ -20,15 +20,13 @@ import (
 var accountCollection *mongo.Collection = config.GetCollection(config.DB, "accounts")
 var validate = validator.New()
 
-//const SecretKey = "SECRETKEY"
-
 // create an account
 func CreateAccount() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 		var account models.Account
 		defer cancel()
-		// validatind request body
+		// validating request body
 		if err := c.BindJSON(&account); err != nil {
 			c.JSON(http.StatusBadRequest, responses.Response{Status: http.StatusBadRequest, Message: "error", Data: map[string]interface{}{"data": err.Error()}})
 			return
@@ -147,13 +145,13 @@ func DeleteAccount() gin.HandlerFunc {
 		}
 		if result.DeletedCount < 1 {
 			c.JSON(http.StatusNotFound,
-				responses.Response{Status: http.StatusNotFound, Message: "error", Data: map[string]interface{}{"data": "Book with specified ID not found!"}},
+				responses.Response{Status: http.StatusNotFound, Message: "error", Data: map[string]interface{}{"data": "Account with specified account number not found!"}},
 			)
 			return
 		}
 
 		c.JSON(http.StatusOK,
-			responses.Response{Status: http.StatusOK, Message: "success", Data: map[string]interface{}{"data": "Successfully deleted!"}},
+			responses.Response{Status: http.StatusOK, Message: "success", Data: map[string]interface{}{"data": "Account deleted!"}},
 		)
 	}
 }
