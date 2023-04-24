@@ -125,6 +125,7 @@ func GetSoldeAccount() gin.HandlerFunc {
 		}
 
 		c.JSON(http.StatusOK, responses.Response{Status: http.StatusOK, Message: "success", Data: map[string]interface{}{"data": account.Amount}})
+		return
 	}
 }
 
