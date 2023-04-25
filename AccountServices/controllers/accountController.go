@@ -163,7 +163,7 @@ func UpdateSoldeAccount()gin.HandlerFunc{
 			return
 		}
 		updateAccount := bson.M{
-			"amount": account.Amount + int64(amount) ,
+			"amount": account.Amount + int64(amount) - int64(amount),
 			"dateUpdate":time.Now(),
 		}
 		//fmt.Println(json.Marshal(updateAccount))
