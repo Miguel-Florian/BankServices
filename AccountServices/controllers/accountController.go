@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"fmt"
 	"accountservices/config"
 	"accountservices/models"
 	"accountservices/responses"
@@ -138,6 +139,7 @@ func UpdateSoldeAccount()gin.HandlerFunc{
 		paramAmount := c.Param("amount")
 		amount,_ := strconv.Atoi(paramAmount)
 
+		fmt.Println(params,amount)
 		defer cancel() 
 
 		filter := bson.D{{
@@ -149,6 +151,7 @@ func UpdateSoldeAccount()gin.HandlerFunc{
 			c.JSON(http.StatusNotFound, responses.Response{Status: http.StatusNotFound, Message: "Status not found", Data: map[string]interface{}{"data": err.Error()}})
 			return
 		}
+		//fmt.Println(account)
 
 		if err := c.BindJSON(&account); err != nil {
 			c.JSON(http.StatusBadRequest, responses.Response{Status: http.StatusBadRequest, Message: "error", Data: map[string]interface{}{"data": err.Error()}})
@@ -158,10 +161,9 @@ func UpdateSoldeAccount()gin.HandlerFunc{
 			c.JSON(http.StatusBadRequest, responses.Response{Status: http.StatusBadRequest, Message: "error", Data: map[string]interface{}{"data": validationErr.Error()}})
 			return
 		}
-		update := bson.M{
-			"Amount":         account.Amount + int64(amount),
-		}
-		result, err := accountCollection.UpdateOne(ctx, bson.M{"account_number": params}, bson.M{"$set": update})
+		update := bson.D{{Key: "amount", Value : account.Amount + int64(amount)}}
+		fmt.Println(update)
+		result, err := accountCollection.UpdateOne(ctx, filter, update)
 		if err != nil {
 			c.JSON(http.StatusInternalServerError, responses.Response{Status: http.StatusInternalServerError, Message: "error", Data: map[string]interface{}{"data": err.Error()}})
 			return
