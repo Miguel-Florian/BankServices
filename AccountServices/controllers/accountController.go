@@ -7,6 +7,7 @@ import (
 	"context"
 	"net/http"
 	"time"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator"
@@ -128,6 +129,55 @@ func GetSoldeAccount() gin.HandlerFunc {
 		return
 	}
 }
+
+func UpdateSoldeAccount()gin.HandlerFunc{
+	return func (c *gin.Context){
+		ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+		var account models.Account
+		params := c.Param("accountnumber")
+		paramAmount := c.Param("amount")
+		amount,_ := strconv.Atoi(paramAmount)
+
+		defer cancel() 
+
+		filter := bson.D{{
+			Key:   "account_number",
+			Value: params,
+		}}
+		err := accountCollection.FindOne(ctx, filter).Decode(&account)
+		if err != nil {
+			c.JSON(http.StatusNotFound, responses.Response{Status: http.StatusNotFound, Message: "Status not found", Data: map[string]interface{}{"data": err.Error()}})
+			return
+		}
+
+		if err := c.BindJSON(&account); err != nil {
+			c.JSON(http.StatusBadRequest, responses.Response{Status: http.StatusBadRequest, Message: "error", Data: map[string]interface{}{"data": err.Error()}})
+			return
+		}
+		if validationErr := validate.Struct(&account); validationErr != nil {
+			c.JSON(http.StatusBadRequest, responses.Response{Status: http.StatusBadRequest, Message: "error", Data: map[string]interface{}{"data": validationErr.Error()}})
+			return
+		}
+		update := bson.M{
+			"Amount":         account.Amount + int64(amount),
+		}
+		result, err := accountCollection.UpdateOne(ctx, bson.M{"account_number": params}, bson.M{"$set": update})
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, responses.Response{Status: http.StatusInternalServerError, Message: "error", Data: map[string]interface{}{"data": err.Error()}})
+			return
+		}
+		var updatedAccount models.Account
+		if result.MatchedCount == 1 {
+			err := accountCollection.FindOne(ctx, bson.M{"account_number": params}).Decode(&updatedAccount)
+			if err != nil {
+				c.JSON(http.StatusInternalServerError, responses.Response{Status: http.StatusInternalServerError, Message: "error", Data: map[string]interface{}{"data": err.Error()}})
+				return
+			}
+		}
+		c.JSON(http.StatusOK, responses.Response{Status: http.StatusOK, Message: "Deposit done", Data: map[string]interface{}{"data": updatedAccount}})
+	}
+}
+
 
 func DeleteAccount() gin.HandlerFunc {
 	return func(c *gin.Context) {
