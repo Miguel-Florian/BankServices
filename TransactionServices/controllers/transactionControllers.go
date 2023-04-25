@@ -3,6 +3,7 @@ package controllers
 import (
 	//"github.com/gin-gonic/gin/internal/json"
 	"encoding/json"
+	"bytes"
 	"log"
 	"io/ioutil"
 	"fmt"
@@ -200,10 +201,18 @@ func MakeDeposit()gin.HandlerFunc{
 				c.JSON(http.StatusInternalServerError, responses.Response{Status: http.StatusInternalServerError, Message: "error", Data: map[string]interface{}{"data": err.Error()}})
 				return
 			}
-			
+		
+			payload := map[string]int64{
+				"amount": depotAmount + lastAmount,
+			}
+			// encode payload to JSON
+			jsonPayload, err := json.Marshal(payload)
+			if err != nil {
+				panic(err)
+			}
 			url1 := fmt.Sprintf("http://localhost:3000/api/accountservices/account/%s/%d",params,depotAmount)
 			fmt.Println(url1)
-			req,err := http.NewRequest("PUT",url1,nil)
+			req,err := http.NewRequest("PATCH",url1,bytes.NewBuffer(jsonPayload))
 			if err != nil{
 				c.JSON(http.StatusNotFound, responses.Response{Status: http.StatusNotFound, Message: "Account  doesn't exists", Data: map[string]interface{}{"data": err.Error()}})
 				return

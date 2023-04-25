@@ -13,7 +13,7 @@ func AccountRoute(router *gin.Engine) {
 	{
 		api.POST("/createaccount", controllers.CreateAccount())
 		api.GET("/accounts", controllers.GetAccounts())
-		api.PUT("account/:accountnumber/:amount",controllers.UpdateSoldeAccount())
+		api.PATCH("account/:accountnumber/:amount",controllers.UpdateSoldeAccount())
 		api.GET("/account/:accountnumber", controllers.GetAccount())
 		api.GET("/account/:accountnumber/solde", controllers.GetSoldeAccount())
 		api.DELETE("/account/:accountnumber", controllers.DeleteAccount())

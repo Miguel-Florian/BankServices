@@ -1,7 +1,8 @@
 package controllers
 
 import (
-	"fmt"
+	//"encoding/json"
+	//"fmt"
 	"accountservices/config"
 	"accountservices/models"
 	"accountservices/responses"
@@ -139,7 +140,7 @@ func UpdateSoldeAccount()gin.HandlerFunc{
 		paramAmount := c.Param("amount")
 		amount,_ := strconv.Atoi(paramAmount)
 
-		fmt.Println(params,amount)
+		//fmt.Println(params,amount)
 		defer cancel() 
 
 		filter := bson.D{{
@@ -152,7 +153,7 @@ func UpdateSoldeAccount()gin.HandlerFunc{
 			return
 		}
 		//fmt.Println(account)
-
+	
 		if err := c.BindJSON(&account); err != nil {
 			c.JSON(http.StatusBadRequest, responses.Response{Status: http.StatusBadRequest, Message: "error", Data: map[string]interface{}{"data": err.Error()}})
 			return
@@ -161,22 +162,25 @@ func UpdateSoldeAccount()gin.HandlerFunc{
 			c.JSON(http.StatusBadRequest, responses.Response{Status: http.StatusBadRequest, Message: "error", Data: map[string]interface{}{"data": validationErr.Error()}})
 			return
 		}
-		update := bson.D{{Key: "amount", Value : account.Amount + int64(amount)}}
-		fmt.Println(update)
-		result, err := accountCollection.UpdateOne(ctx, filter, update)
+		updateAccount := bson.M{
+			"amount": account.Amount + int64(amount) ,
+			"dateUpdate":time.Now(),
+		}
+		//fmt.Println(json.Marshal(updateAccount))
+		resultat, err := accountCollection.UpdateOne(ctx, bson.M{"account_number": params}, bson.M{"$set": updateAccount})
 		if err != nil {
 			c.JSON(http.StatusInternalServerError, responses.Response{Status: http.StatusInternalServerError, Message: "error", Data: map[string]interface{}{"data": err.Error()}})
 			return
 		}
 		var updatedAccount models.Account
-		if result.MatchedCount == 1 {
+		if resultat.MatchedCount == 1 {
 			err := accountCollection.FindOne(ctx, bson.M{"account_number": params}).Decode(&updatedAccount)
 			if err != nil {
 				c.JSON(http.StatusInternalServerError, responses.Response{Status: http.StatusInternalServerError, Message: "error", Data: map[string]interface{}{"data": err.Error()}})
 				return
 			}
 		}
-		c.JSON(http.StatusOK, responses.Response{Status: http.StatusOK, Message: "Deposit done", Data: map[string]interface{}{"data": updatedAccount}})
+		c.JSON(http.StatusAccepted, responses.Response{Status: http.StatusAccepted, Message: "Deposit Done", Data: map[string]interface{}{"data": updatedAccount}})
 	}
 }
 
