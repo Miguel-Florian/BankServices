@@ -28,3 +28,6 @@ or install :
 
 After those installation, you can run `go run main.go` in your project directory
 ## About Transactions Services
+
+#### Issues 
+`Verifier pourquoi lors la transaction (depot) il credite le double de la somme de depot.`
