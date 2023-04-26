@@ -1,12 +1,12 @@
 # BankServices
 
-- [Soon](## Soon)
-- [Services](## Services)
-- [Account](## Account)
-- [Transactions](## Transactions)
-- [Installations] (## Installations)
-- [Dependencies](## Dependencies)
-- [Lauching](## Lauching)
+- [Soon](##soon)
+- [Services](##services)
+- [Account](##account)
+- [Transactions](##transactions)
+- [Installations](##installations)
+- [Dependencies](##dependencies)
+- [Lauching](##lauching)
 
 **Banking services developed in Go based on a microservices architecture, including a microservice for account management, another for certain banking transactions (deposits and withdrawals).**
 
