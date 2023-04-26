@@ -210,7 +210,8 @@ func MakeDeposit()gin.HandlerFunc{
 			if err != nil {
 				panic(err)
 			}
-			url1 := fmt.Sprintf("http://localhost:3000/api/accountservices/account/%s/%d",params,depotAmount)
+			fmt.Println(payload)
+			url1 := fmt.Sprintf("http://localhost:3000/api/accountservices/account/%s",params)
 			fmt.Println(url1)
 			req,err := http.NewRequest("PATCH",url1,bytes.NewBuffer(jsonPayload))
 			if err != nil{
@@ -224,6 +225,7 @@ func MakeDeposit()gin.HandlerFunc{
 			if err != nil{
 				log.Fatal(err)
 			}
+
 			defer resp.Body.Close()
 
 			c.JSON(http.StatusOK, responses.Response{Status: http.StatusOK, Message: "Depot successfully done", Data: map[string]interface{}{"Amount": result}})

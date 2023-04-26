@@ -2,14 +2,14 @@ package controllers
 
 import (
 	//"encoding/json"
-	//"fmt"
+	"fmt"
 	"accountservices/config"
 	"accountservices/models"
 	"accountservices/responses"
 	"context"
 	"net/http"
 	"time"
-	"strconv"
+	//"strconv"
 
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator"
@@ -137,8 +137,8 @@ func UpdateSoldeAccount()gin.HandlerFunc{
 		ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 		var account models.Account
 		params := c.Param("accountnumber")
-		paramAmount := c.Param("amount")
-		amount,_ := strconv.Atoi(paramAmount)
+		/*paramAmount := c.Param("amount")
+		amount,_ := strconv.Atoi(paramAmount)*/
 
 		//fmt.Println(params,amount)
 		defer cancel() 
@@ -152,7 +152,7 @@ func UpdateSoldeAccount()gin.HandlerFunc{
 			c.JSON(http.StatusNotFound, responses.Response{Status: http.StatusNotFound, Message: "Status not found", Data: map[string]interface{}{"data": err.Error()}})
 			return
 		}
-		//fmt.Println(account)
+		fmt.Println(account.Amount)
 	
 		if err := c.BindJSON(&account); err != nil {
 			c.JSON(http.StatusBadRequest, responses.Response{Status: http.StatusBadRequest, Message: "error", Data: map[string]interface{}{"data": err.Error()}})
@@ -162,8 +162,9 @@ func UpdateSoldeAccount()gin.HandlerFunc{
 			c.JSON(http.StatusBadRequest, responses.Response{Status: http.StatusBadRequest, Message: "error", Data: map[string]interface{}{"data": validationErr.Error()}})
 			return
 		}
+		
 		updateAccount := bson.M{
-			"amount": account.Amount + int64(amount) - int64(amount),
+			"amount": account.Amount,
 			"dateUpdate":time.Now(),
 		}
 		//fmt.Println(json.Marshal(updateAccount))
