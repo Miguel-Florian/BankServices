@@ -1,6 +1,7 @@
 # BankServices
-Banking services developed in Go based on a microservices architecture, including a microservice for account management, another for certain banking transactions (deposits and withdrawals).
-To come, a microservice for bank transfers.
+#### Banking services developed in [Go] based on a microservices architecture, including a microservice for account management, another for certain banking transactions (deposits and withdrawals).
+
+#### **To come, a microservice for bank transfers.**
 ## About Accounts Services
 
 ### Steps and Requirements
