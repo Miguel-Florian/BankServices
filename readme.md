@@ -4,13 +4,13 @@ Banking services developed in Go based on a microservices architecture and Mongo
 
 | Rapids links | Description |
 | -------- | ----------- |
-| - [Soon](#Soon) | Next features |
-| - [Services](#Services)| The existing services |
-| - [Account](#Account) | Account Management microservice |
-| - [Transactions](#Transactions) | Transaction Microservice |
-| - [Installations](#Installations) | Steps and requirement for installation |
-| - [Dependencies](#Dependencies) | List and version of all dependencies |
-| - [Lauching](#Lauching) | Run the app |
+|  [Soon](#Soon) | Next features |
+|  [Services](#Services)| The existing services |
+|  [Account](#Account) | Account Management microservice |
+|  [Transactions](#Transactions) | Transaction Microservice |
+|  [Installations](#Installations) | Steps and requirement for installation |
+|  [Dependencies](#Dependencies) | List and version of all dependencies |
+|  [Lauching](#Lauching) | Run the app |
 
 ## Soon
 
