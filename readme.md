@@ -1,12 +1,23 @@
 # BankServices
 
-- [Soon](##soon)
-- [Services](##services)
-- [Account](##account)
-- [Transactions](##transactions)
-- [Installations](##installations)
-- [Dependencies](##dependencies)
-- [Lauching](##lauching)
+| Rapids links | Description |
+| -------- | ----------- |
+| - [Soon](##soon) | Test that function `positive_or_negative()` gives the correct output when given a case of `0` |
+| - [Services](##services)| Fixed program to the infinite loop |
+| - [Account](##account) | Prints the largest of three integers |
+| - [Account](##account) | Converts a date to the day of year and determines how many days are left in the year |
+| - [Transactions](##transactions)| Header file |
+| - [Installations](##installations) |
+| - [Dependencies](##dependencies) |
+| - [Lauching](##lauching) |
+
+
+
+
+
+
+
+
 
 **Banking services developed in Go based on a microservices architecture, including a microservice for account management, another for certain banking transactions (deposits and withdrawals).**
 
