@@ -1,13 +1,29 @@
 # BankServices
 
+- [Soon](## Soon)
+- [Services](## Services)
+- [Account](## Account)
+- [Transactions](## Transactions)
+- [Installations] (## Installations)
+- [Dependencies](## Dependencies)
+- [Lauching](## Lauching)
+
 **Banking services developed in Go based on a microservices architecture, including a microservice for account management, another for certain banking transactions (deposits and withdrawals).**
 
-#### **Comming soon, a microservice for bank transfers.**
-## About Accounts Services
+## Soon
 
-### Steps and Requirements
+A microservice for bank transfers.
+## Services
 
-`install go v1.20` [Link](https://go.dev/doc/install) to download.
+## Account
+
+
+## Transactions
+
+
+## Installations
+
+`install go v1.20` **[Link]**(https://go.dev/doc/install) to download.
 
 After installing, make sure you have the latest version by typing `go version` in your terminal. Then add the gopath directory in your environment variables. On Windows your gopath is `%HOMEPATH%/go`
 Check these tutorials for more information [Windows](https://www.youtube.com/watch?v=kjr3mOPv8Sk) and [Linux](https://fr.techtribune.net/linux/comment-installer-golang-langage-de-programmation-go-sous-linux/484285/)
@@ -30,4 +46,3 @@ or install :
 ### Launching
 
 After those installation, you can run `go run main.go` in your project directory
-## About Transactions Services
