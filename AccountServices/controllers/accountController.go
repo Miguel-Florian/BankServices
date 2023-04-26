@@ -64,6 +64,7 @@ func CreateAccount() gin.HandlerFunc {
 	}
 }
 
+// get all accounts informations
 func GetAccounts() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
@@ -89,6 +90,7 @@ func GetAccounts() gin.HandlerFunc {
 	}
 }
 
+//get a single account information
 func GetAccount() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
@@ -110,6 +112,7 @@ func GetAccount() gin.HandlerFunc {
 	}
 }
 
+// get solde of a single account
 func GetSoldeAccount() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
@@ -132,7 +135,8 @@ func GetSoldeAccount() gin.HandlerFunc {
 	}
 }
 
-func UpdateSoldeAccount()gin.HandlerFunc{
+// make a deposit to an identified account
+func DepositToAccount()gin.HandlerFunc{
 	return func (c *gin.Context){
 		ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 		var account models.Account
@@ -185,7 +189,55 @@ func UpdateSoldeAccount()gin.HandlerFunc{
 	}
 }
 
+func WithdrawToAccount()gin.HandlerFunc{
+	return func (c *gin.Context){
+		ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+		var account models.Account
+		params := c.Param("accountnumber")
+		defer cancel() 
 
+		filter := bson.D{{
+			Key:   "account_number",
+			Value: params,
+		}}
+		err := accountCollection.FindOne(ctx, filter).Decode(&account)
+		if err != nil {
+			c.JSON(http.StatusNotFound, responses.Response{Status: http.StatusNotFound, Message: "Status not found", Data: map[string]interface{}{"data": err.Error()}})
+			return
+		}
+		fmt.Println(account.Amount)
+	
+		if err := c.BindJSON(&account); err != nil {
+			c.JSON(http.StatusBadRequest, responses.Response{Status: http.StatusBadRequest, Message: "error", Data: map[string]interface{}{"data": err.Error()}})
+			return
+		}
+		if validationErr := validate.Struct(&account); validationErr != nil {
+			c.JSON(http.StatusBadRequest, responses.Response{Status: http.StatusBadRequest, Message: "error", Data: map[string]interface{}{"data": validationErr.Error()}})
+			return
+		}
+		
+		updateAccount := bson.M{
+			"amount": account.Amount,
+			"dateUpdate":time.Now(),
+		}
+		resultat, err := accountCollection.UpdateOne(ctx, bson.M{"account_number": params}, bson.M{"$set": updateAccount})
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, responses.Response{Status: http.StatusInternalServerError, Message: "error", Data: map[string]interface{}{"data": err.Error()}})
+			return
+		}
+		var updatedAccount models.Account
+		if resultat.MatchedCount == 1 {
+			err := accountCollection.FindOne(ctx, bson.M{"account_number": params}).Decode(&updatedAccount)
+			if err != nil {
+				c.JSON(http.StatusInternalServerError, responses.Response{Status: http.StatusInternalServerError, Message: "error", Data: map[string]interface{}{"data": err.Error()}})
+				return
+			}
+		}
+		c.JSON(http.StatusAccepted, responses.Response{Status: http.StatusAccepted, Message: "Deposit Done", Data: map[string]interface{}{"data": updatedAccount}})
+	}
+}
+
+//Delete an account identified by its account number
 func DeleteAccount() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
